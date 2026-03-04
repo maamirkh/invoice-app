@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { SALESMEN, CreateInvoiceDTO, InvoiceWithItems } from '@/lib/types';
 import { Button } from '@/components/ui/button';
@@ -26,7 +26,7 @@ export function InvoiceForm({ invoice }: InvoiceFormProps) {
   const [customerName, setCustomerName] = useState(invoice?.customer_name || '');
   const [customerAddress, setCustomerAddress] = useState(invoice?.customer_address || '');
   const [customerPhone, setCustomerPhone] = useState(invoice?.customer_phone || '');
-  const [date, setDate] = useState(invoice?.date || new Date().toISOString().split('T')[0]);
+  const [date, setDate] = useState<string>(invoice?.date ?? '');
   const [taxAmount, setTaxAmount] = useState(invoice?.tax_amount || 0);
   const [items, setItems] = useState<FormItem[]>(
     invoice?.items.map((i, idx) => ({
@@ -38,6 +38,13 @@ export function InvoiceForm({ invoice }: InvoiceFormProps) {
   );
   const [errors, setErrors] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
+
+  // Set today's date on client only (avoids SSR hydration mismatch)
+  useEffect(() => {
+    if (!invoice?.date) {
+      setDate(new Date().toISOString().split('T')[0]);
+    }
+  }, []);
 
   const subtotal = useMemo(
     () => Math.round(items.reduce((sum, i) => sum + i.quantity * i.unit_price, 0) * 100) / 100,

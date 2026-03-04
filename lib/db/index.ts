@@ -1,7 +1,12 @@
 import Database from 'better-sqlite3';
 import path from 'path';
 
-const DB_PATH = path.join(process.cwd(), 'data', 'invoices.db');
+// On Vercel, process.cwd() is read-only. Use /tmp which is writable.
+// Note: /tmp is ephemeral on serverless — data resets on cold starts.
+// For production persistence, migrate to a cloud database (e.g. Turso, Supabase).
+const DB_PATH = process.env.VERCEL
+  ? path.join('/tmp', 'invoices.db')
+  : path.join(process.cwd(), 'data', 'invoices.db');
 
 let db: Database.Database | null = null;
 
