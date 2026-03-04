@@ -4,7 +4,7 @@ import { CreateInvoiceDTO } from '@/lib/types';
 
 export async function GET() {
   try {
-    const invoices = invoiceService.getAll();
+    const invoices = await invoiceService.getAll();
     return NextResponse.json(invoices);
   } catch {
     return NextResponse.json({ error: 'Failed to fetch invoices' }, { status: 500 });
@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ errors }, { status: 400 });
     }
 
-    const invoice = invoiceService.create(body);
+    const invoice = await invoiceService.create(body);
     return NextResponse.json(invoice, { status: 201 });
   } catch {
     return NextResponse.json({ error: 'Failed to create invoice' }, { status: 500 });

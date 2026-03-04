@@ -2,7 +2,7 @@ import { invoiceRepository } from '@/lib/repositories/invoice-repository';
 import { CreateInvoiceDTO, UpdateInvoiceDTO, InvoiceWithItems, Invoice } from '@/lib/types';
 
 export class InvoiceService {
-  create(dto: CreateInvoiceDTO): InvoiceWithItems {
+  async create(dto: CreateInvoiceDTO): Promise<InvoiceWithItems> {
     const items = dto.items.map((item) => ({
       ...item,
       total: Math.round(item.quantity * item.unit_price * 100) / 100,
@@ -12,7 +12,7 @@ export class InvoiceService {
     const tax_amount = Math.round(dto.tax_amount * 100) / 100;
     const grand_total = Math.round((subtotal + tax_amount) * 100) / 100;
 
-    const invoice_number = invoiceRepository.generateInvoiceNumber();
+    const invoice_number = await invoiceRepository.generateInvoiceNumber();
 
     return invoiceRepository.create({
       invoice_number,
@@ -28,15 +28,15 @@ export class InvoiceService {
     });
   }
 
-  getAll(): Invoice[] {
+  async getAll(): Promise<Invoice[]> {
     return invoiceRepository.findAll();
   }
 
-  getById(id: string): InvoiceWithItems | null {
+  async getById(id: string): Promise<InvoiceWithItems | null> {
     return invoiceRepository.findById(id);
   }
 
-  update(dto: UpdateInvoiceDTO): InvoiceWithItems | null {
+  async update(dto: UpdateInvoiceDTO): Promise<InvoiceWithItems | null> {
     const items = dto.items.map((item) => ({
       ...item,
       total: Math.round(item.quantity * item.unit_price * 100) / 100,
@@ -59,7 +59,7 @@ export class InvoiceService {
     });
   }
 
-  delete(id: string): boolean {
+  async delete(id: string): Promise<boolean> {
     return invoiceRepository.delete(id);
   }
 

@@ -1,7 +1,7 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  serverExternalPackages: ['better-sqlite3', 'jsdom', 'canvas'],
+  serverExternalPackages: ['jsdom', 'canvas'],
 };
 
 export default nextConfig;
