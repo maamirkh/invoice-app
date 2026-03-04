@@ -12,7 +12,8 @@ export async function GET(
       return NextResponse.json({ error: 'Invoice not found' }, { status: 404 });
     }
     return NextResponse.json(invoice);
-  } catch {
+  } catch (err) {
+    console.error('[GET /api/invoices/id]', err);
     return NextResponse.json({ error: 'Failed to fetch invoice' }, { status: 500 });
   }
 }
@@ -35,7 +36,8 @@ export async function PUT(
       return NextResponse.json({ error: 'Invoice not found' }, { status: 404 });
     }
     return NextResponse.json(invoice);
-  } catch {
+  } catch (err) {
+    console.error('[PUT /api/invoices/id]', err);
     return NextResponse.json({ error: 'Failed to update invoice' }, { status: 500 });
   }
 }
@@ -51,7 +53,8 @@ export async function DELETE(
       return NextResponse.json({ error: 'Invoice not found' }, { status: 404 });
     }
     return NextResponse.json({ success: true });
-  } catch {
+  } catch (err) {
+    console.error('[DELETE /api/invoices/id]', err);
     return NextResponse.json({ error: 'Failed to delete invoice' }, { status: 500 });
   }
 }

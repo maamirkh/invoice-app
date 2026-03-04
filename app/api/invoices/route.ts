@@ -6,7 +6,8 @@ export async function GET() {
   try {
     const invoices = await invoiceService.getAll();
     return NextResponse.json(invoices);
-  } catch {
+  } catch (err) {
+    console.error('[GET /api/invoices]', err);
     return NextResponse.json({ error: 'Failed to fetch invoices' }, { status: 500 });
   }
 }
@@ -22,7 +23,8 @@ export async function POST(request: NextRequest) {
 
     const invoice = await invoiceService.create(body);
     return NextResponse.json(invoice, { status: 201 });
-  } catch {
+  } catch (err) {
+    console.error('[POST /api/invoices]', err);
     return NextResponse.json({ error: 'Failed to create invoice' }, { status: 500 });
   }
 }
