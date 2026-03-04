@@ -14,8 +14,8 @@ export default function DashboardPage() {
 
   useEffect(() => {
     fetch('/api/invoices')
-      .then((res) => res.json())
-      .then(setInvoices)
+      .then((res) => (res.ok ? res.json() : []))
+      .then((data) => setInvoices(Array.isArray(data) ? data : []))
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
