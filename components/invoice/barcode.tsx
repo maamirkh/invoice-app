@@ -7,9 +7,10 @@ interface BarcodeProps {
   value: string;
   width?: number;
   height?: number;
+  displayValue?: boolean;
 }
 
-export function Barcode({ value, width = 2, height = 50 }: BarcodeProps) {
+export function Barcode({ value, width = 2, height = 50, displayValue = true }: BarcodeProps) {
   const svgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
@@ -19,7 +20,7 @@ export function Barcode({ value, width = 2, height = 50 }: BarcodeProps) {
           format: 'CODE128',
           width,
           height,
-          displayValue: true,
+          displayValue,
           fontSize: 12,
           margin: 5,
         });

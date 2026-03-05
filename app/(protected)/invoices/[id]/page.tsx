@@ -91,7 +91,7 @@ export default function InvoiceDetailPage() {
                 <span className="font-medium">Date:</span> {invoice.date}
               </p>
               <div className="mt-3">
-                <Barcode value={invoice.invoice_number} height={40} width={1.5} />
+                <Barcode value={invoice.invoice_number} height={40} width={1.5} displayValue={false} />
               </div>
             </div>
           </div>
@@ -106,9 +106,12 @@ export default function InvoiceDetailPage() {
                 <p className="text-xs sm:text-sm text-gray-600">{invoice.customer_phone}</p>
               )}
             </div>
-            <div>
-              <h4 className="text-xs font-semibold text-gray-500 uppercase mb-2">Sales Person</h4>
-              <p className="font-medium text-gray-900 text-sm sm:text-base">{invoice.salesman_name}</p>
+            <div className="flex flex-col justify-between">
+              <div>
+                <h4 className="text-xs font-semibold text-gray-500 uppercase mb-2">Sales Person</h4>
+                <p className="font-medium text-gray-900 text-sm sm:text-base">{invoice.salesman_name}</p>
+              </div>
+              <p className="text-xs sm:text-sm font-medium text-gray-700 text-right translate-y-5">{invoice.invoice_number}</p>
             </div>
           </div>
 
