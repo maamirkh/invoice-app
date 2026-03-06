@@ -92,6 +92,7 @@ export default function InvoiceDetailPage() {
               </p>
               <div className="mt-3 overflow-hidden">
                 <Barcode value={invoice.invoice_number} height={40} width={1.5} displayValue={false} className="max-w-full" />
+                <p className="text-xs text-gray-600 mt-8 sm:text-right">{invoice.invoice_number}</p>
               </div>
             </div>
           </div>
