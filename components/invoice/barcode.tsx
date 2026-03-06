@@ -8,9 +8,10 @@ interface BarcodeProps {
   width?: number;
   height?: number;
   displayValue?: boolean;
+  className?: string;
 }
 
-export function Barcode({ value, width = 2, height = 50, displayValue = true }: BarcodeProps) {
+export function Barcode({ value, width = 2, height = 50, displayValue = true, className }: BarcodeProps) {
   const svgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
@@ -30,5 +31,5 @@ export function Barcode({ value, width = 2, height = 50, displayValue = true }: 
     }
   }, [value, width, height]);
 
-  return <svg ref={svgRef} />;
+  return <svg ref={svgRef} className={className} />;
 }

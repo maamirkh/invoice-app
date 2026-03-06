@@ -69,20 +69,20 @@ export default function InvoiceDetailPage() {
       </div>
 
       {/* Invoice Preview */}
-      <div className="bg-white rounded-lg shadow print:shadow-none" id="invoice-preview">
+      <div className="bg-white rounded-lg shadow print:shadow-none overflow-hidden" id="invoice-preview">
         <div className="p-4 sm:p-6 md:p-8">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-6 sm:mb-8">
-            <div className="flex items-start gap-3">
+            <div className="flex items-start gap-3 min-w-0">
               <img src="/logo.jpeg" alt="Logo" className="h-14 sm:h-20 object-contain shrink-0" />
-              <div>
-                <h2 className="text-base sm:text-xl font-bold text-gray-900">{COMPANY.name}</h2>
+              <div className="min-w-0">
+                <h2 className="text-base sm:text-xl font-bold text-gray-900 truncate">{COMPANY.name}</h2>
                 <p className="text-xs sm:text-sm text-gray-600">{COMPANY.address}</p>
                 <p className="text-xs sm:text-sm text-gray-600">{COMPANY.phone}</p>
                 <p className="text-xs sm:text-sm text-gray-600">{COMPANY.email}</p>
               </div>
             </div>
-            <div className="sm:text-right">
+            <div className="sm:text-right shrink-0">
               <h3 className="text-xl sm:text-2xl font-bold text-blue-600 mb-2">INVOICE</h3>
               <p className="text-xs sm:text-sm text-gray-600">
                 <span className="font-medium">Invoice #:</span> {invoice.invoice_number}
@@ -90,8 +90,8 @@ export default function InvoiceDetailPage() {
               <p className="text-xs sm:text-sm text-gray-600">
                 <span className="font-medium">Date:</span> {invoice.date}
               </p>
-              <div className="mt-3">
-                <Barcode value={invoice.invoice_number} height={40} width={1.5} displayValue={false} />
+              <div className="mt-3 overflow-hidden">
+                <Barcode value={invoice.invoice_number} height={40} width={1.5} displayValue={false} className="max-w-full" />
               </div>
             </div>
           </div>
@@ -106,17 +106,14 @@ export default function InvoiceDetailPage() {
                 <p className="text-xs sm:text-sm text-gray-600">{invoice.customer_phone}</p>
               )}
             </div>
-            <div className="flex flex-col justify-between">
-              <div>
-                <h4 className="text-xs font-semibold text-gray-500 uppercase mb-2">Sales Person</h4>
-                <p className="font-medium text-gray-900 text-sm sm:text-base">{invoice.salesman_name}</p>
-              </div>
-              <p className="text-xs sm:text-sm font-medium text-gray-700 text-right translate-y-5">{invoice.invoice_number}</p>
+            <div>
+              <h4 className="text-xs font-semibold text-gray-500 uppercase mb-2">Sales Person</h4>
+              <p className="font-medium text-gray-900 text-sm sm:text-base">{invoice.salesman_name}</p>
             </div>
           </div>
 
           {/* Items Table */}
-          <div className="overflow-x-auto mb-6 sm:mb-8">
+          <div className="-mx-4 sm:mx-0 overflow-x-auto mb-6 sm:mb-8">
             <table className="w-full min-w-[480px]">
               <thead>
                 <tr className="bg-gray-800 text-white">
@@ -147,7 +144,7 @@ export default function InvoiceDetailPage() {
 
           {/* Totals */}
           <div className="flex justify-end">
-            <div className="w-full sm:w-72">
+            <div className="w-full max-w-xs sm:w-72">
               <div className="flex justify-between py-2 text-sm">
                 <span className="text-gray-600">Subtotal</span>
                 <span className="text-gray-900">Rs {invoice.subtotal.toLocaleString('en-PK', { minimumFractionDigits: 2 })}</span>
@@ -164,7 +161,7 @@ export default function InvoiceDetailPage() {
           </div>
 
           {/* Terms & Conditions */}
-          <div className="mt-6 sm:mt-8 pt-4 sm:pt-5 border-t border-gray-200 w-full sm:max-w-[calc(100%-18rem)]">
+          <div className="mt-6 sm:mt-8 pt-4 sm:pt-5 border-t border-gray-200 w-full">
             <h4 className="text-xs font-bold text-gray-700 uppercase mb-3">Terms & Conditions</h4>
             <ol className="list-decimal list-outside pl-4 space-y-1.5">
               {TERMS_AND_CONDITIONS.map((term, i) => (

@@ -11,9 +11,8 @@ function generateBarcodePng(value: string): string {
   JsBarcode(canvas, value, {
     format: 'CODE128',
     width: 2,
-    height: 50,
-    displayValue: true,
-    fontSize: 14,
+    height: 60,
+    displayValue: false,
     margin: 5,
     background: '#ffffff',
     lineColor: '#000000',
@@ -73,19 +72,25 @@ export async function generateInvoicePdf(invoice: InvoiceWithItems): Promise<Buf
   doc.setTextColor(100, 100, 100);
   doc.text(`Date: ${invoice.date}`, pageWidth - margin, y + 20, { align: 'right' });
 
-  // ── Barcode (right side, below invoice info) ──
+  // ── Barcode + Invoice Number (right side, below invoice info) ──
   y += 26;
   try {
     const barcodePng = generateBarcodePng(invoice.invoice_number);
-    doc.addImage(barcodePng, 'PNG', pageWidth - margin - 58, y, 58, 16);
-    y += 20;
+    doc.addImage(barcodePng, 'PNG', pageWidth - margin - 58, y, 58, 14);
+    y += 22; // 14mm barcode + 8mm gap (≈32px)
+
+    // Invoice number below barcode bars
+    doc.setFontSize(7);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(50, 50, 50);
+    doc.text(invoice.invoice_number, pageWidth - margin, y, { align: 'right' });
+    y += 2; // ~1mm gap (≈4px) before divider line
   } catch (err) {
     console.error('Barcode generation failed:', err);
     y += 4;
   }
 
   // ── Divider ──
-  y += 3;
   doc.setDrawColor(200, 200, 200);
   doc.setLineWidth(0.5);
   doc.line(margin, y, pageWidth - margin, y);
